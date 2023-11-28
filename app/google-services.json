@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "408259293264",
+    "firebase_url": "https://heart-rate-db-b3441-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "heart-rate-db-b3441",
+    "storage_bucket": "heart-rate-db-b3441.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408259293264:android:ff3c8284001bf694b56155",
+        "android_client_info": {
+          "package_name": "com.example.heartdiseaseprediction"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkqM92nWBLXGBJvOsUdWUkGGqVfbKU6jc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
