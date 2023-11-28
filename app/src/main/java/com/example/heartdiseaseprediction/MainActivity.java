@@ -19,6 +19,14 @@ import java.nio.ByteOrder;
 
 public class MainActivity extends AppCompatActivity {
 
+    public void scaleTensorBuffer(TensorBuffer tensorBuffer, float[] mean, float[] variance) {
+        float[] floatValues = tensorBuffer.getFloatArray();
+        for (int i = 0; i < floatValues.length; i++) {
+            float stdDev = (float) Math.sqrt(variance[i]);
+            floatValues[i] = (floatValues[i] - mean[i]) / stdDev;
+        }
+        tensorBuffer.loadArray(floatValues);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
 
         TextView result;
         result = findViewById(R.id.result);
+
+        float[] mean = {-6.8565e-08F, -5.0756e-08F,-5.4763e-08F,
+                1.6562e-07F,-1.5583e-08F, -1.2466e-08F, -6.6784e-08F,
+                -5.3205e-08F, -2.7604e-08F, -4.2742e-08F, 9.7059e-08F};
+        float[] variance = {1.0000F, 1.0000F, 1.0000F, 1.0000F, 1.0000F, 1.0000F, 1.0000F, 1.0000F, 1.0000F,
+                1.0000F, 1.0000F};
 
         predict.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,13 +87,14 @@ public class MainActivity extends AppCompatActivity {
                     byteBuffer.putFloat(Oldpeak);
                     byteBuffer.putInt(Slope);
                     byteBuffer.rewind();
+
                     // Creates inputs for reference.
                     Model model = Model.newInstance(getApplicationContext());
 
                     // Creates inputs for reference.
                     TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 11}, DataType.FLOAT32);
                     inputFeature0.loadBuffer(byteBuffer);
-
+                    scaleTensorBuffer(inputFeature0, mean, variance);
                     // Runs model inference and gets result.
                     Model.Outputs outputs = model.process(inputFeature0);
                     TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
