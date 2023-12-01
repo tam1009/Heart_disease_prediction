@@ -63,22 +63,26 @@
         android:id="@+id/lastResultDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
         android:fontFamily="sans-serif-condensed-light"
         android:gravity="center"
-        android:textSize="20dp"
+        android:textSize="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/circularProgressBar" />
+
+
     <TextView
         android:id="@+id/textView_PredictResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:fontFamily="sans-serif-condensed-light"
-        android:gravity="center"
-        android:textSize="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:gravity="left"
+        android:textSize="22dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bg_bottom" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lastResultDate" />
 
     <ImageView
         android:id="@+id/bg_top"
@@ -101,12 +105,17 @@
         app:layout_constraintRight_toRightOf="parent"
         app:srcCompat="@drawable/bg_bottom" />
 
-    <TextView
-        android:id="@+id/tv_result"
+    <Button
+        android:id="@+id/btn_ShowProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintTop_toBottomOf="@+id/lastResultDate"
-        tools:layout_editor_absoluteX="162dp" />
+        android:backgroundTint="#3C9CA8"
+        android:text="Show profile"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/bg_bottom"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    \
 
 </androidx.constraintlayout.widget.ConstraintLayout>

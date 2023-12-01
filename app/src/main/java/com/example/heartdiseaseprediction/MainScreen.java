@@ -3,9 +3,12 @@ package com.example.heartdiseaseprediction;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,13 +31,12 @@ public class MainScreen extends AppCompatActivity {
     // creating a variable for our
     // Database Reference for Firebase.
     DatabaseReference databaseReference;
-    TextView result;
 
     // variable for Text view.
     TextView tv_HeartRate;
     TextView tv_timeStamp;
-    //TextView result;
     CircularProgressBar prog_Bar;
+    Button btn_ShowProfile;
     long k = 1000;
     float[] mean = {-6.8565e-08F, -5.0756e-08F,-5.4763e-08F,
             1.6562e-07F,-1.5583e-08F, -1.2466e-08F, -6.6784e-08F,
@@ -48,6 +50,9 @@ public class MainScreen extends AppCompatActivity {
         tv_HeartRate = findViewById(R.id.textView_HeartRate);
         tv_timeStamp = findViewById(R.id.lastResultDate);
         prog_Bar = findViewById(R.id.circularProgressBar);
+
+        //tv_HeartRate = findViewById(R.id.textView_HeartRate);
+        //btn_ShowProfile = findViewById(R.id.btn_ShowProfile);
         //result = findViewById(R.id.tv_result);
         // below line is used to get the instance
         // of our Firebase database.
@@ -56,7 +61,16 @@ public class MainScreen extends AppCompatActivity {
         // below line is used to get
         // reference for our database.
         databaseReference = firebaseDatabase.getReference("data");
-
+        btn_ShowProfile = findViewById(R.id.btn_ShowProfile);
+        //Show profile action
+        btn_ShowProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         // initializing our object class variable.
         // calling method
         // for getting data.
@@ -79,6 +93,7 @@ public class MainScreen extends AppCompatActivity {
                 String beatValue = String.valueOf(snapshot.child("beat").getValue());
                 String timeStamp = String.valueOf(snapshot.child("timeStamp").getValue());
 
+
                 // after getting the value we are setting
                 // our value to our text view in below line.
                 tv_HeartRate.setText(beatValue);
@@ -88,7 +103,7 @@ public class MainScreen extends AppCompatActivity {
                 prog_Bar.setProgressWithAnimation((int)beatid, k); // =1s
                 //calPrediction();
                 try {
-                    Predict(37, 1, 2, 130, 283, 0, 1, (int)beat, 0, 0, 1);
+                    Predict(40, 1, 2, 140, 289, 0, 0, (int)beat, 0, 0, 1);
                 }
                 catch(IOException e)
                 {
@@ -117,18 +132,21 @@ public class MainScreen extends AppCompatActivity {
         scaleTensorBuffer(inputFeature0, mean, variance);
 
         inputFeature0.loadArray(floatArr);
-//        inputFeature0.loadBuffer(byteBuffer);
-//        scaleTensorBuffer(inputFeature0, mean, variance);
+
         // Runs model inference and gets result.
         Model.Outputs outputs = model.process(inputFeature0);
         TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
-        TextView tv= findViewById(R.id.tv_result);
+        TextView tv= findViewById(R.id.textView_PredictResult);
         float[] data1=outputFeature0.getFloatArray();
         if (data1[0] >= data1[1])
         {
-            tv.setText("Normal");
+            tv.setTextColor(Color.BLACK);
+            tv.setText("Your Heart health is NORMAL now!");
         }
-        else {tv.setText("Dangerous");}
+        else {
+            tv.setTextColor(Color.RED);
+            tv.setText("Your Heart health is Dangerous!!!");
+        }
         // Releases model resources if no longer used.
         model.close();
     }
