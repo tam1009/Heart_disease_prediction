@@ -25,6 +25,10 @@ import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 
 public class MainScreen extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
@@ -91,13 +95,13 @@ public class MainScreen extends AppCompatActivity {
                 // below line is for getting the data from
                 // snapshot of our database.
                 String beatValue = String.valueOf(snapshot.child("beat").getValue());
-                String timeStamp = String.valueOf(snapshot.child("timeStamp").getValue());
 
+                String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
 
-                // after getting the value we are setting
                 // our value to our text view in below line.
                 tv_HeartRate.setText(beatValue);
-                tv_timeStamp.setText("Last result: " + timeStamp);
+                tv_timeStamp.setText("Last result: " + currentDate + " at " + currentTime);
                 float beat = Float.parseFloat(beatValue);
                 float beatid = 100 * (beat / 250);
                 prog_Bar.setProgressWithAnimation((int)beatid, k); // =1s
